@@ -34,7 +34,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.wakepulse.app.R
 import com.wakepulse.app.ui.WakePulseViewModel
 import com.wakepulse.app.ui.formatDateTime
 import com.wakepulse.app.ui.formatElapsed
@@ -53,15 +56,21 @@ fun DiagnosticsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Diagnóstico") },
+                title = { Text(stringResource(R.string.diagnostics)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = "Voltar")
+                        Icon(
+                            Icons.AutoMirrored.Rounded.ArrowBack,
+                            contentDescription = stringResource(R.string.back),
+                        )
                     }
                 },
                 actions = {
                     IconButton(onClick = viewModel::refreshSystemStatus) {
-                        Icon(Icons.Rounded.Refresh, contentDescription = "Atualizar")
+                        Icon(
+                            Icons.Rounded.Refresh,
+                            contentDescription = stringResource(R.string.refresh),
+                        )
                     }
                 },
             )
@@ -79,12 +88,12 @@ fun DiagnosticsScreen(
         ) {
             item {
                 Text(
-                    text = "Estado em tempo real",
+                    text = stringResource(R.string.real_time_status),
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
-                    text = "Leituras locais das APIs do Android. Nenhum dado sai do aparelho.",
+                    text = stringResource(R.string.local_readings_description),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -100,43 +109,57 @@ fun DiagnosticsScreen(
                         verticalArrangement = Arrangement.spacedBy(14.dp),
                     ) {
                         StatusLine(
-                            "Tela",
-                            if (systemStatus.isInteractive) "Interativa" else "Desligada / não interativa",
+                            stringResource(R.string.screen),
+                            if (systemStatus.isInteractive) {
+                                stringResource(R.string.interactive)
+                            } else {
+                                stringResource(R.string.screen_off)
+                            },
                             systemStatus.isInteractive,
                         )
                         StatusLine(
-                            "Modo idle (Doze)",
-                            if (systemStatus.isDeviceIdle) "Ativo" else "Inativo",
+                            stringResource(R.string.idle_mode),
+                            if (systemStatus.isDeviceIdle) {
+                                stringResource(R.string.active)
+                            } else {
+                                stringResource(R.string.inactive)
+                            },
                             !systemStatus.isDeviceIdle,
                         )
                         StatusLine("isDeviceIdleMode()", systemStatus.isDeviceIdle.toString())
                         StatusLine("isInteractive()", systemStatus.isInteractive.toString())
                         HorizontalDivider()
-                        StatusLine("Tempo desde o último pulso", formatElapsed(state.lastPulseAtMillis, now))
-                        StatusLine("Contador de pulsos", state.pulseCount.toString())
-                        StatusLine("Próximo agendamento", formatDateTime(state.nextPulseAtMillis))
+                        StatusLine(
+                            stringResource(R.string.time_since_last_pulse),
+                            formatElapsed(state.lastPulseAtMillis, now),
+                        )
+                        StatusLine(stringResource(R.string.pulse_counter), state.pulseCount.toString())
+                        StatusLine(
+                            stringResource(R.string.next_schedule),
+                            formatDateTime(state.nextPulseAtMillis),
+                        )
                         StatusLine(
                             "canScheduleExactAlarms()",
                             systemStatus.exactAlarmsAllowed.toString(),
                             systemStatus.exactAlarmsAllowed,
                         )
                         StatusLine(
-                            "Fora da otimização de bateria",
+                            stringResource(R.string.outside_battery_optimization),
                             systemStatus.ignoringBatteryOptimizations.toString(),
                             systemStatus.ignoringBatteryOptimizations,
                         )
                         StatusLine(
-                            "Não Perturbe ativo",
+                            stringResource(R.string.dnd_active),
                             systemStatus.isDoNotDisturbActive.toString(),
                             !systemStatus.isDoNotDisturbActive,
                         )
                         StatusLine(
-                            "Acesso à política DND",
+                            stringResource(R.string.dnd_policy_access),
                             systemStatus.dndPolicyAccessGranted.toString(),
                             systemStatus.dndPolicyAccessGranted,
                         )
                         StatusLine(
-                            "Pausa durante DND",
+                            stringResource(R.string.pause_during_dnd),
                             state.pauseDuringDnd.toString(),
                             state.pauseDuringDnd,
                         )
@@ -161,11 +184,14 @@ fun DiagnosticsScreen(
                         Icon(Icons.Rounded.Bolt, contentDescription = null)
                     }
                     Spacer(Modifier.size(9.dp))
-                    Text(if (busy) "Executando…" else "Executar pulso agora")
+                    Text(
+                        if (busy) stringResource(R.string.running)
+                        else stringResource(R.string.run_pulse_now),
+                    )
                 }
                 Spacer(Modifier.height(7.dp))
                 Text(
-                    text = "O teste mantém um WakeLock parcial por cerca de 5 segundos e registra o resultado, sem alterar o próximo alarme.",
+                    text = stringResource(R.string.manual_pulse_description),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -176,11 +202,11 @@ fun DiagnosticsScreen(
                     modifier = Modifier.fillMaxWidth(),
                     contentPadding = PaddingValues(15.dp),
                 ) {
-                    Text("Testar AlarmManager em ~60 segundos")
+                    Text(stringResource(R.string.test_alarm_manager))
                 }
                 Spacer(Modifier.height(7.dp))
                 Text(
-                    text = "Este autoteste agenda um PendingIntent separado. Desligue a tela; quando ele disparar, o contador e o histórico serão atualizados e o log mostrará “AUTOTESTE disparado”.",
+                    text = stringResource(R.string.alarm_self_test_description),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -194,7 +220,14 @@ fun DiagnosticsScreen(
                         tint = MaterialTheme.colorScheme.primary,
                     )
                     Spacer(Modifier.size(9.dp))
-                    SectionTitle("Histórico", "Últimos ${state.history.size} de até 50 pulsos")
+                    SectionTitle(
+                        stringResource(R.string.history),
+                        pluralStringResource(
+                            R.plurals.history_summary,
+                            state.history.size,
+                            state.history.size,
+                        ),
+                    )
                 }
             }
 
@@ -205,7 +238,7 @@ fun DiagnosticsScreen(
                         shape = RoundedCornerShape(20.dp),
                     ) {
                         Text(
-                            "Nenhum pulso registrado ainda.",
+                            stringResource(R.string.no_pulses_yet),
                             modifier = Modifier.padding(20.dp),
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )

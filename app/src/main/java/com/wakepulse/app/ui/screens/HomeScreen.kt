@@ -47,9 +47,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.wakepulse.app.R
 import com.wakepulse.app.domain.PulseInterval
 import com.wakepulse.app.system.SystemSettingsNavigator
 import com.wakepulse.app.ui.WakePulseViewModel
@@ -104,7 +107,7 @@ fun HomeScreen(
                         )
                     }
                     Text(
-                        text = "Reduza notificações atrasadas durante o repouso do Android",
+                        text = stringResource(R.string.app_subtitle),
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -133,15 +136,16 @@ fun HomeScreen(
                         ) {
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(
-                                    text = "Proteção contra Doze",
+                                    text = stringResource(R.string.doze_protection),
                                     style = MaterialTheme.typography.titleLarge,
                                     fontWeight = FontWeight.SemiBold,
                                 )
                                 Text(
                                     text = when {
-                                        state.enabled && state.pauseDuringDnd && systemStatus.isDoNotDisturbActive -> "Pausado para dormir"
-                                        state.enabled -> "Ativado"
-                                        else -> "Desativado"
+                                        state.enabled && state.pauseDuringDnd && systemStatus.isDoNotDisturbActive ->
+                                            stringResource(R.string.paused_for_sleep)
+                                        state.enabled -> stringResource(R.string.enabled)
+                                        else -> stringResource(R.string.disabled)
                                     },
                                     color = MaterialTheme.colorScheme.primary,
                                     fontWeight = FontWeight.Bold,
@@ -161,11 +165,11 @@ fun HomeScreen(
                         Text(
                             text = when {
                                 state.enabled && state.pauseDuringDnd && systemStatus.isDoNotDisturbActive ->
-                                    "Não Perturbe/Modo Sono está ativo. Os WakeLocks estão pausados."
+                                    stringResource(R.string.sleep_pause_message)
                                 state.enabled ->
-                                    "WakePulse está mantendo pulsos periódicos durante o repouso."
+                                    stringResource(R.string.enabled_message)
                                 else ->
-                                    "O Android pode entrar normalmente em Doze profundo."
+                                    stringResource(R.string.disabled_message)
                             },
                             style = MaterialTheme.typography.bodyMedium,
                         )
@@ -174,7 +178,7 @@ fun HomeScreen(
             }
 
             item {
-                SectionTitle("Status")
+                SectionTitle(stringResource(R.string.status))
                 Spacer(Modifier.height(10.dp))
                 Card(
                     modifier = Modifier.fillMaxWidth(),
@@ -184,31 +188,65 @@ fun HomeScreen(
                         modifier = Modifier.padding(20.dp),
                         verticalArrangement = Arrangement.spacedBy(13.dp),
                     ) {
-                        StatusLine("Último pulso", formatTime(state.lastPulseAtMillis))
                         StatusLine(
-                            "Próximo pulso",
+                            stringResource(R.string.last_pulse),
+                            formatTime(state.lastPulseAtMillis),
+                        )
+                        StatusLine(
+                            stringResource(R.string.next_pulse),
                             when {
-                                !state.enabled -> "Desativado"
+                                !state.enabled -> stringResource(R.string.disabled)
                                 state.pauseDuringDnd && systemStatus.isDoNotDisturbActive ->
-                                    "Pausado · checagem ~${formatTime(state.nextPulseAtMillis, "aguardando")}"
-                                else -> "~${formatTime(state.nextPulseAtMillis, "aguardando")}"
+                                    stringResource(
+                                        R.string.paused_check_time,
+                                        formatTime(
+                                            state.nextPulseAtMillis,
+                                            stringResource(R.string.waiting),
+                                        ),
+                                    )
+                                else -> stringResource(
+                                    R.string.approximate_time,
+                                    formatTime(
+                                        state.nextPulseAtMillis,
+                                        stringResource(R.string.waiting),
+                                    ),
+                                )
                             },
                         )
-                        StatusLine("Intervalo", "${state.intervalMinutes} minutos")
-                        StatusLine("Total de pulsos", state.pulseCount.toString())
                         StatusLine(
-                            "Alarmes exatos",
-                            if (systemStatus.exactAlarmsAllowed) "Permitidos" else "Permissão necessária",
+                            stringResource(R.string.interval),
+                            pluralStringResource(
+                                R.plurals.minutes_value,
+                                state.intervalMinutes,
+                                state.intervalMinutes,
+                            ),
+                        )
+                        StatusLine(stringResource(R.string.total_pulses), state.pulseCount.toString())
+                        StatusLine(
+                            stringResource(R.string.exact_alarms),
+                            if (systemStatus.exactAlarmsAllowed) {
+                                stringResource(R.string.allowed)
+                            } else {
+                                stringResource(R.string.permission_required)
+                            },
                             systemStatus.exactAlarmsAllowed,
                         )
                         StatusLine(
-                            "Otimização de bateria",
-                            if (systemStatus.ignoringBatteryOptimizations) "Ignorada" else "Ativa",
+                            stringResource(R.string.battery_optimization),
+                            if (systemStatus.ignoringBatteryOptimizations) {
+                                stringResource(R.string.ignored)
+                            } else {
+                                stringResource(R.string.active)
+                            },
                             systemStatus.ignoringBatteryOptimizations,
                         )
                         StatusLine(
-                            "Modo Sono / Não Perturbe",
-                            if (systemStatus.isDoNotDisturbActive) "Ativo" else "Inativo",
+                            stringResource(R.string.sleep_mode_dnd),
+                            if (systemStatus.isDoNotDisturbActive) {
+                                stringResource(R.string.active)
+                            } else {
+                                stringResource(R.string.inactive)
+                            },
                             !systemStatus.isDoNotDisturbActive,
                         )
                     }
@@ -217,8 +255,8 @@ fun HomeScreen(
 
             item {
                 SectionTitle(
-                    "Pausa durante o sono",
-                    "Usa o Não Perturbe do Android, inclusive quando ativado pelo Modo Sono da Samsung.",
+                    stringResource(R.string.sleep_pause),
+                    stringResource(R.string.sleep_pause_subtitle),
                 )
                 Spacer(Modifier.height(10.dp))
                 Card(
@@ -240,9 +278,16 @@ fun HomeScreen(
                             )
                             Spacer(Modifier.size(10.dp))
                             Column(Modifier.weight(1f)) {
-                                Text("Pausar no Não Perturbe", fontWeight = FontWeight.SemiBold)
                                 Text(
-                                    if (systemStatus.isDoNotDisturbActive) "Pausa ativa agora" else "Aguardando o horário de sono",
+                                    stringResource(R.string.pause_on_dnd),
+                                    fontWeight = FontWeight.SemiBold,
+                                )
+                                Text(
+                                    if (systemStatus.isDoNotDisturbActive) {
+                                        stringResource(R.string.pause_active_now)
+                                    } else {
+                                        stringResource(R.string.waiting_for_sleep)
+                                    },
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )
@@ -254,12 +299,16 @@ fun HomeScreen(
                             )
                         }
                         StatusLine(
-                            "Acesso ao Não Perturbe",
-                            if (systemStatus.dndPolicyAccessGranted) "Concedido" else "Permissão necessária",
+                            stringResource(R.string.dnd_access),
+                            if (systemStatus.dndPolicyAccessGranted) {
+                                stringResource(R.string.granted)
+                            } else {
+                                stringResource(R.string.permission_required)
+                            },
                             systemStatus.dndPolicyAccessGranted,
                         )
                         Text(
-                            "Durante a pausa, o alarme faz apenas uma checagem curta no intervalo configurado e não adquire WakeLock nem registra pulso. Ao sair do Não Perturbe, o agendamento normal é retomado.",
+                            stringResource(R.string.sleep_pause_details),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
@@ -268,7 +317,7 @@ fun HomeScreen(
                                 onClick = { SystemSettingsNavigator.openDoNotDisturbAccessSettings(context) },
                                 modifier = Modifier.fillMaxWidth(),
                             ) {
-                                Text("Permitir acesso ao Não Perturbe")
+                                Text(stringResource(R.string.allow_dnd_access))
                             }
                         }
                     }
@@ -277,8 +326,8 @@ fun HomeScreen(
 
             item {
                 SectionTitle(
-                    "Intervalo do pulso",
-                    "Intervalos menores podem consumir mais bateria.",
+                    stringResource(R.string.pulse_interval),
+                    stringResource(R.string.shorter_intervals_battery),
                 )
                 Spacer(Modifier.height(10.dp))
                 Row(
@@ -293,8 +342,10 @@ fun HomeScreen(
                             label = {
                                 Text(
                                     when (interval) {
-                                        PulseInterval.RECOMMENDED -> "9 min · recomendado"
-                                        PulseInterval.EXPERIMENTAL -> "5 min · experimental"
+                                        PulseInterval.RECOMMENDED ->
+                                            stringResource(R.string.recommended_interval)
+                                        PulseInterval.EXPERIMENTAL ->
+                                            stringResource(R.string.experimental_interval)
                                         else -> interval.label
                                     },
                                 )
@@ -312,7 +363,7 @@ fun HomeScreen(
                     )
                     Spacer(Modifier.size(8.dp))
                     Text(
-                        "O Android pode limitar alarmes allowWhileIdle durante o Doze, especialmente em 5 minutos. O horário exibido é aproximado.",
+                        stringResource(R.string.allow_while_idle_warning),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -320,7 +371,7 @@ fun HomeScreen(
             }
 
             item {
-                SectionTitle("Permissões e configuração")
+                SectionTitle(stringResource(R.string.permissions_configuration))
                 Spacer(Modifier.height(10.dp))
                 Card(
                     modifier = Modifier.fillMaxWidth(),
@@ -331,12 +382,16 @@ fun HomeScreen(
                         verticalArrangement = Arrangement.spacedBy(13.dp),
                     ) {
                         StatusLine(
-                            "Exact Alarm",
-                            if (systemStatus.exactAlarmsAllowed) "Alarmes exatos permitidos" else "Permissão necessária",
+                            stringResource(R.string.exact_alarm),
+                            if (systemStatus.exactAlarmsAllowed) {
+                                stringResource(R.string.exact_alarms_allowed)
+                            } else {
+                                stringResource(R.string.permission_required)
+                            },
                             systemStatus.exactAlarmsAllowed,
                         )
-                        StatusLine("WakeLock", "Configurado", true)
-                        StatusLine("Boot receiver", "Configurado", true)
+                        StatusLine("WakeLock", stringResource(R.string.configured), true)
+                        StatusLine("Boot receiver", stringResource(R.string.configured), true)
                         if (!systemStatus.exactAlarmsAllowed) {
                             Button(
                                 onClick = { SystemSettingsNavigator.openExactAlarmSettings(context) },
@@ -344,7 +399,7 @@ fun HomeScreen(
                             ) {
                                 Icon(Icons.Rounded.Alarm, contentDescription = null)
                                 Spacer(Modifier.size(8.dp))
-                                Text("Permitir alarmes exatos")
+                                Text(stringResource(R.string.allow_exact_alarms))
                             }
                         }
                     }
@@ -352,7 +407,7 @@ fun HomeScreen(
             }
 
             item {
-                SectionTitle("Otimização de bateria")
+                SectionTitle(stringResource(R.string.battery_optimization))
                 Spacer(Modifier.height(10.dp))
                 Card(
                     modifier = Modifier.fillMaxWidth(),
@@ -370,15 +425,15 @@ fun HomeScreen(
                             Spacer(Modifier.size(10.dp))
                             Text(
                                 if (systemStatus.ignoringBatteryOptimizations) {
-                                    "WakePulse está fora da otimização de bateria."
+                                    stringResource(R.string.outside_optimization_message)
                                 } else {
-                                    "A otimização de bateria ainda está ativa."
+                                    stringResource(R.string.optimization_active_message)
                                 },
                                 fontWeight = FontWeight.Medium,
                             )
                         }
                         Text(
-                            "Remover o WakePulse da otimização pode aumentar a confiabilidade, mas também o consumo. A decisão sempre é confirmada pelo usuário nas configurações do Android.",
+                            stringResource(R.string.battery_optimization_details),
                             style = MaterialTheme.typography.bodySmall,
                         )
                         if (!systemStatus.ignoringBatteryOptimizations) {
@@ -386,7 +441,7 @@ fun HomeScreen(
                                 onClick = { SystemSettingsNavigator.openBatteryOptimizationSettings(context) },
                                 modifier = Modifier.fillMaxWidth(),
                             ) {
-                                Text("Abrir configurações de bateria")
+                                Text(stringResource(R.string.open_battery_settings))
                             }
                         }
                     }
@@ -394,7 +449,7 @@ fun HomeScreen(
             }
 
             item {
-                SectionTitle("Samsung / One UI")
+                SectionTitle(stringResource(R.string.samsung_one_ui))
                 Spacer(Modifier.height(10.dp))
                 Card(
                     modifier = Modifier.fillMaxWidth(),
@@ -405,14 +460,14 @@ fun HomeScreen(
                         verticalArrangement = Arrangement.spacedBy(10.dp),
                     ) {
                         Text(
-                            "No One UI, confirme também que o WakePulse não foi colocado em Apps em suspensão profunda. A Samsung pode manter uma camada adicional além da otimização padrão do Android.",
+                            stringResource(R.string.samsung_deep_sleep_warning),
                             style = MaterialTheme.typography.bodyMedium,
                         )
                         OutlinedButton(
                             onClick = { SystemSettingsNavigator.openAppDetails(context) },
                             modifier = Modifier.fillMaxWidth(),
                         ) {
-                            Text("Abrir detalhes do WakePulse")
+                            Text(stringResource(R.string.open_wakepulse_details))
                         }
                     }
                 }
@@ -428,13 +483,16 @@ fun HomeScreen(
                 ) {
                     Icon(Icons.Rounded.Bolt, contentDescription = null)
                     Spacer(Modifier.size(8.dp))
-                    Text("Abrir diagnóstico", modifier = Modifier.weight(1f))
+                    Text(
+                        stringResource(R.string.open_diagnostics),
+                        modifier = Modifier.weight(1f),
+                    )
                     Icon(Icons.Rounded.ChevronRight, contentDescription = null)
                 }
                 Spacer(Modifier.height(10.dp))
                 Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                     Text(
-                        "Offline · sem analytics · sem leitura de notificações",
+                        stringResource(R.string.privacy_footer),
                         style = MaterialTheme.typography.labelMedium,
                         color = Color.Gray,
                     )

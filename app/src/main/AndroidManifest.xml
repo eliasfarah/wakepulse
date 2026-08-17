@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -12,9 +13,11 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_wakepulse"
         android:label="@string/app_name"
+        android:localeConfig="@xml/locales_config"
         android:roundIcon="@drawable/ic_wakepulse"
         android:supportsRtl="true"
-        android:theme="@style/Theme.WakePulse">
+        android:theme="@style/Theme.WakePulse"
+        tools:targetApi="tiramisu">
 
         <activity
             android:name=".MainActivity"

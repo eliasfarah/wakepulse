@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.wakepulse.app.R
 import com.wakepulse.app.WakePulseApplication
 import com.wakepulse.app.domain.PulseSource
 import com.wakepulse.app.domain.PulseState
@@ -45,7 +46,7 @@ class WakePulseViewModel(application: Application) : AndroidViewModel(applicatio
                 if (restored) Log.i(TAG, "Agendamento reconciliado ao abrir o app")
             } catch (error: Exception) {
                 Log.e(TAG, "Falha ao reconciliar agendamento na abertura", error)
-                _notice.value = "Não foi possível confirmar o próximo alarme"
+                _notice.value = application.getString(R.string.notice_schedule_unconfirmed)
             }
         }
         viewModelScope.launch {
@@ -78,16 +79,18 @@ class WakePulseViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun executePulseNow() = runOperation {
         val executed = container.pulseExecutor.execute(PulseSource.MANUAL)
-        _notice.value = if (executed) "Pulso manual concluído" else "Já existe um pulso em andamento"
+        _notice.value = applicationString(
+            if (executed) R.string.notice_manual_pulse_complete else R.string.notice_pulse_in_progress,
+        )
     }
 
     fun scheduleAlarmSelfTest() = runOperation {
         val exact = container.systemStatusProvider.snapshot().exactAlarmsAllowed
         val scheduledAsExact = container.diagnosticAlarmScheduler.scheduleOneMinuteTest(exact)
         _notice.value = if (scheduledAsExact) {
-            "Autoteste exato agendado: desligue a tela e aguarde ~60 s"
+            applicationString(R.string.notice_exact_self_test)
         } else {
-            "Autoteste com precisão reduzida: conceda alarmes exatos para o teste ideal"
+            applicationString(R.string.notice_inexact_self_test)
         }
     }
 
@@ -107,12 +110,16 @@ class WakePulseViewModel(application: Application) : AndroidViewModel(applicatio
                 block()
             } catch (error: Exception) {
                 Log.e(TAG, "Operação da interface falhou", error)
-                _notice.value = "Não foi possível concluir: ${error.localizedMessage ?: "erro desconhecido"}"
+                val detail = error.localizedMessage ?: applicationString(R.string.unknown_error)
+                _notice.value = applicationString(R.string.notice_operation_failed, detail)
             } finally {
                 _operationInProgress.value = false
             }
         }
     }
+
+    private fun applicationString(id: Int, vararg arguments: Any): String =
+        getApplication<Application>().getString(id, *arguments)
 
     private companion object {
         const val TAG = "WakePulse"

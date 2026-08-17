@@ -1,4 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">WakePulse</string>
+    <string name="app_subtitle">Reduce delayed notifications while Android is resting</string>
+
+    <string name="diagnostics">Diagnostics</string>
+    <string name="back">Back</string>
+    <string name="refresh">Refresh</string>
+    <string name="real_time_status">Real-time status</string>
+    <string name="local_readings_description">Local Android API readings. No data leaves your device.</string>
+    <string name="screen">Screen</string>
+    <string name="interactive">Interactive</string>
+    <string name="screen_off">Off / not interactive</string>
+    <string name="idle_mode">Idle mode (Doze)</string>
+    <string name="active">Active</string>
+    <string name="inactive">Inactive</string>
+    <string name="time_since_last_pulse">Time since last pulse</string>
+    <string name="pulse_counter">Pulse counter</string>
+    <string name="next_schedule">Next schedule</string>
+    <string name="outside_battery_optimization">Outside battery optimization</string>
+    <string name="dnd_active">Do Not Disturb active</string>
+    <string name="dnd_policy_access">DND policy access</string>
+    <string name="pause_during_dnd">Pause during DND</string>
+    <string name="running">Running…</string>
+    <string name="run_pulse_now">Run pulse now</string>
+    <string name="manual_pulse_description">This test holds a partial WakeLock for about 5 seconds and records the result without changing the next alarm.</string>
+    <string name="test_alarm_manager">Test AlarmManager in ~60 seconds</string>
+    <string name="alarm_self_test_description">This self-test schedules a separate PendingIntent. Turn off the screen; when it fires, the counter and history will update and the log will show “SELF-TEST fired”.</string>
+    <string name="history">History</string>
+    <plurals name="history_summary">
+        <item quantity="one">Latest %1$d of up to 50 pulses</item>
+        <item quantity="other">Latest %1$d of up to 50 pulses</item>
+    </plurals>
+    <string name="no_pulses_yet">No pulses recorded yet.</string>
+
+    <string name="doze_protection">Doze protection</string>
+    <string name="paused_for_sleep">Paused for sleep</string>
+    <string name="enabled">Enabled</string>
+    <string name="disabled">Disabled</string>
+    <string name="sleep_pause_message">Do Not Disturb/Sleep mode is active. WakeLocks are paused.</string>
+    <string name="enabled_message">WakePulse is maintaining periodic pulses while the device rests.</string>
+    <string name="disabled_message">Android can enter deep Doze normally.</string>
+    <string name="status">Status</string>
+    <string name="last_pulse">Last pulse</string>
+    <string name="next_pulse">Next pulse</string>
+    <string name="waiting">waiting</string>
+    <string name="paused_check_time">Paused · check ~%1$s</string>
+    <string name="approximate_time">~%1$s</string>
+    <string name="interval">Interval</string>
+    <plurals name="minutes_value">
+        <item quantity="one">%1$d minute</item>
+        <item quantity="other">%1$d minutes</item>
+    </plurals>
+    <string name="total_pulses">Total pulses</string>
+    <string name="exact_alarms">Exact alarms</string>
+    <string name="allowed">Allowed</string>
+    <string name="permission_required">Permission required</string>
+    <string name="battery_optimization">Battery optimization</string>
+    <string name="ignored">Ignored</string>
+    <string name="sleep_mode_dnd">Sleep mode / Do Not Disturb</string>
+
+    <string name="sleep_pause">Pause during sleep</string>
+    <string name="sleep_pause_subtitle">Uses Android Do Not Disturb, including when enabled by Samsung Sleep mode.</string>
+    <string name="pause_on_dnd">Pause during Do Not Disturb</string>
+    <string name="pause_active_now">Pause active now</string>
+    <string name="waiting_for_sleep">Waiting for sleep schedule</string>
+    <string name="dnd_access">Do Not Disturb access</string>
+    <string name="granted">Granted</string>
+    <string name="sleep_pause_details">During the pause, the alarm only performs a short check at the configured interval and does not acquire a WakeLock or record a pulse. Normal scheduling resumes when Do Not Disturb ends.</string>
+    <string name="allow_dnd_access">Allow Do Not Disturb access</string>
+
+    <string name="pulse_interval">Pulse interval</string>
+    <string name="shorter_intervals_battery">Shorter intervals may use more battery.</string>
+    <string name="recommended_interval">9 min · recommended</string>
+    <string name="experimental_interval">5 min · experimental</string>
+    <string name="allow_while_idle_warning">Android may throttle allowWhileIdle alarms during Doze, especially at 5 minutes. The displayed time is approximate.</string>
+
+    <string name="permissions_configuration">Permissions and configuration</string>
+    <string name="exact_alarm">Exact Alarm</string>
+    <string name="exact_alarms_allowed">Exact alarms allowed</string>
+    <string name="configured">Configured</string>
+    <string name="allow_exact_alarms">Allow exact alarms</string>
+
+    <string name="outside_optimization_message">WakePulse is outside battery optimization.</string>
+    <string name="optimization_active_message">Battery optimization is still active.</string>
+    <string name="battery_optimization_details">Removing WakePulse from battery optimization may improve reliability, but it may also increase power use. Android always asks you to confirm this choice in system settings.</string>
+    <string name="open_battery_settings">Open battery settings</string>
+
+    <string name="samsung_one_ui">Samsung / One UI</string>
+    <string name="samsung_deep_sleep_warning">On One UI, also make sure WakePulse was not added to Deep sleeping apps. Samsung may enforce an additional layer beyond standard Android battery optimization.</string>
+    <string name="open_wakepulse_details">Open WakePulse details</string>
+    <string name="open_diagnostics">Open diagnostics</string>
+    <string name="privacy_footer">Offline · no analytics · no notification access</string>
+
+    <string name="not_yet_occurred">Not occurred yet</string>
+    <string name="not_available">Not available</string>
+    <string name="no_pulses_recorded">No pulses recorded</string>
+    <string name="elapsed_hours">%1$dh %2$dmin %3$ds</string>
+    <string name="elapsed_minutes">%1$dmin %2$ds</string>
+    <string name="elapsed_seconds">%1$ds</string>
+
+    <string name="notice_schedule_unconfirmed">The next alarm could not be confirmed</string>
+    <string name="notice_manual_pulse_complete">Manual pulse completed</string>
+    <string name="notice_pulse_in_progress">A pulse is already in progress</string>
+    <string name="notice_exact_self_test">Exact self-test scheduled: turn off the screen and wait ~60 s</string>
+    <string name="notice_inexact_self_test">Reduced-accuracy self-test: allow exact alarms for the ideal test</string>
+    <string name="notice_operation_failed">Could not complete: %1$s</string>
+    <string name="unknown_error">unknown error</string>
 </resources>

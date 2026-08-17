@@ -69,6 +69,12 @@ O impacto real varia muito por aparelho. Cada pulso mantém apenas um WakeLock p
 - histórico local dos 50 pulsos mais recentes;
 - Material 3, cores dinâmicas, dark mode e layout responsivo.
 
+## Idiomas
+
+O WakePulse inclui recursos completos para **English (United States)** e **Português (Brasil)**. Inglês é o idioma padrão de fallback e o Android seleciona automaticamente o português quando o aparelho ou o idioma do aplicativo está configurado como `pt-BR`.
+
+No Android 13 e versões mais recentes, os dois idiomas aparecem no seletor de idioma por aplicativo em **Configurações → Apps → WakePulse → Idioma**. Em versões anteriores, o app acompanha o idioma do sistema.
+
 ## Permissões
 
 | Permissão | Motivo |

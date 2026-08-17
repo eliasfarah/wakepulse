@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WakePulse</string>
+    <string name="app_subtitle">Reduza notificações atrasadas durante o repouso do Android</string>
+
+    <string name="diagnostics">Diagnóstico</string>
+    <string name="back">Voltar</string>
+    <string name="refresh">Atualizar</string>
+    <string name="real_time_status">Estado em tempo real</string>
+    <string name="local_readings_description">Leituras locais das APIs do Android. Nenhum dado sai do aparelho.</string>
+    <string name="screen">Tela</string>
+    <string name="interactive">Interativa</string>
+    <string name="screen_off">Desligada / não interativa</string>
+    <string name="idle_mode">Modo idle (Doze)</string>
+    <string name="active">Ativo</string>
+    <string name="inactive">Inativo</string>
+    <string name="time_since_last_pulse">Tempo desde o último pulso</string>
+    <string name="pulse_counter">Contador de pulsos</string>
+    <string name="next_schedule">Próximo agendamento</string>
+    <string name="outside_battery_optimization">Fora da otimização de bateria</string>
+    <string name="dnd_active">Não Perturbe ativo</string>
+    <string name="dnd_policy_access">Acesso à política DND</string>
+    <string name="pause_during_dnd">Pausa durante DND</string>
+    <string name="running">Executando…</string>
+    <string name="run_pulse_now">Executar pulso agora</string>
+    <string name="manual_pulse_description">O teste mantém um WakeLock parcial por cerca de 5 segundos e registra o resultado, sem alterar o próximo alarme.</string>
+    <string name="test_alarm_manager">Testar AlarmManager em ~60 segundos</string>
+    <string name="alarm_self_test_description">Este autoteste agenda um PendingIntent separado. Desligue a tela; quando ele disparar, o contador e o histórico serão atualizados e o log mostrará “AUTOTESTE disparado”.</string>
+    <string name="history">Histórico</string>
+    <plurals name="history_summary">
+        <item quantity="one">Último %1$d de até 50 pulsos</item>
+        <item quantity="many">Últimos %1$d de até 50 pulsos</item>
+        <item quantity="other">Últimos %1$d de até 50 pulsos</item>
+    </plurals>
+    <string name="no_pulses_yet">Nenhum pulso registrado ainda.</string>
+
+    <string name="doze_protection">Proteção contra Doze</string>
+    <string name="paused_for_sleep">Pausado para dormir</string>
+    <string name="enabled">Ativado</string>
+    <string name="disabled">Desativado</string>
+    <string name="sleep_pause_message">Não Perturbe/Modo Sono está ativo. Os WakeLocks estão pausados.</string>
+    <string name="enabled_message">WakePulse está mantendo pulsos periódicos durante o repouso.</string>
+    <string name="disabled_message">O Android pode entrar normalmente em Doze profundo.</string>
+    <string name="status">Status</string>
+    <string name="last_pulse">Último pulso</string>
+    <string name="next_pulse">Próximo pulso</string>
+    <string name="waiting">aguardando</string>
+    <string name="paused_check_time">Pausado · checagem ~%1$s</string>
+    <string name="approximate_time">~%1$s</string>
+    <string name="interval">Intervalo</string>
+    <plurals name="minutes_value">
+        <item quantity="one">%1$d minuto</item>
+        <item quantity="many">%1$d minutos</item>
+        <item quantity="other">%1$d minutos</item>
+    </plurals>
+    <string name="total_pulses">Total de pulsos</string>
+    <string name="exact_alarms">Alarmes exatos</string>
+    <string name="allowed">Permitidos</string>
+    <string name="permission_required">Permissão necessária</string>
+    <string name="battery_optimization">Otimização de bateria</string>
+    <string name="ignored">Ignorada</string>
+    <string name="sleep_mode_dnd">Modo Sono / Não Perturbe</string>
+
+    <string name="sleep_pause">Pausa durante o sono</string>
+    <string name="sleep_pause_subtitle">Usa o Não Perturbe do Android, inclusive quando ativado pelo Modo Sono da Samsung.</string>
+    <string name="pause_on_dnd">Pausar no Não Perturbe</string>
+    <string name="pause_active_now">Pausa ativa agora</string>
+    <string name="waiting_for_sleep">Aguardando o horário de sono</string>
+    <string name="dnd_access">Acesso ao Não Perturbe</string>
+    <string name="granted">Concedido</string>
+    <string name="sleep_pause_details">Durante a pausa, o alarme faz apenas uma checagem curta no intervalo configurado e não adquire WakeLock nem registra pulso. Ao sair do Não Perturbe, o agendamento normal é retomado.</string>
+    <string name="allow_dnd_access">Permitir acesso ao Não Perturbe</string>
+
+    <string name="pulse_interval">Intervalo do pulso</string>
+    <string name="shorter_intervals_battery">Intervalos menores podem consumir mais bateria.</string>
+    <string name="recommended_interval">9 min · recomendado</string>
+    <string name="experimental_interval">5 min · experimental</string>
+    <string name="allow_while_idle_warning">O Android pode limitar alarmes allowWhileIdle durante o Doze, especialmente em 5 minutos. O horário exibido é aproximado.</string>
+
+    <string name="permissions_configuration">Permissões e configuração</string>
+    <string name="exact_alarm">Exact Alarm</string>
+    <string name="exact_alarms_allowed">Alarmes exatos permitidos</string>
+    <string name="configured">Configurado</string>
+    <string name="allow_exact_alarms">Permitir alarmes exatos</string>
+
+    <string name="outside_optimization_message">WakePulse está fora da otimização de bateria.</string>
+    <string name="optimization_active_message">A otimização de bateria ainda está ativa.</string>
+    <string name="battery_optimization_details">Remover o WakePulse da otimização pode aumentar a confiabilidade, mas também o consumo. A decisão sempre é confirmada pelo usuário nas configurações do Android.</string>
+    <string name="open_battery_settings">Abrir configurações de bateria</string>
+
+    <string name="samsung_one_ui">Samsung / One UI</string>
+    <string name="samsung_deep_sleep_warning">No One UI, confirme também que o WakePulse não foi colocado em Apps em suspensão profunda. A Samsung pode manter uma camada adicional além da otimização padrão do Android.</string>
+    <string name="open_wakepulse_details">Abrir detalhes do WakePulse</string>
+    <string name="open_diagnostics">Abrir diagnóstico</string>
+    <string name="privacy_footer">Offline · sem analytics · sem leitura de notificações</string>
+
+    <string name="not_yet_occurred">Ainda não ocorreu</string>
+    <string name="not_available">Não disponível</string>
+    <string name="no_pulses_recorded">Sem pulsos registrados</string>
+    <string name="elapsed_hours">%1$dh %2$dmin %3$ds</string>
+    <string name="elapsed_minutes">%1$dmin %2$ds</string>
+    <string name="elapsed_seconds">%1$ds</string>
+
+    <string name="notice_schedule_unconfirmed">Não foi possível confirmar o próximo alarme</string>
+    <string name="notice_manual_pulse_complete">Pulso manual concluído</string>
+    <string name="notice_pulse_in_progress">Já existe um pulso em andamento</string>
+    <string name="notice_exact_self_test">Autoteste exato agendado: desligue a tela e aguarde ~60 s</string>
+    <string name="notice_inexact_self_test">Autoteste com precisão reduzida: conceda alarmes exatos para o teste ideal</string>
+    <string name="notice_operation_failed">Não foi possível concluir: %1$s</string>
+    <string name="unknown_error">erro desconhecido</string>
+</resources>
